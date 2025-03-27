@@ -49,7 +49,7 @@ function App() {
 
           const keyPoints3D = hand[0].landmarks
           const gesture = GE.estimate(keyPoints3D as [], 8)
-          
+
           if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
             const confidence = gesture.gestures.map((prediction) => prediction.score)
             const maxConfidence = confidence.indexOf(Math.max.apply(null, confidence))
@@ -70,7 +70,7 @@ function App() {
     const net = await handPose.load();
     if (net) {
       setHandPoseLoaded(true)
-    } 
+    }
 
     setInterval(() => {
       detect(net);
@@ -82,9 +82,9 @@ function App() {
   return (
     <div>
       {handPoseLoaded && <h1>The model has been loaded. Now WAVE!</h1>}
-      {handPoseLoaded && <h2>You can also do a finger pose, like thumbs up! Or victory sign!</h2>}
+      {handPoseLoaded && <h3>You can also do a finger pose, like thumbs up! Or victory sign!</h3>}
 
-      <Webcam width={1920} height={1080} ref={webcamRef} className='webCamStyle' />
+      <Webcam ref={webcamRef} className='webCamStyle' />
       <canvas ref={canvasRef} className='webCamStyle' />
 
       {emoji !== "" && <img className='fingerPose' src={images[emoji as keyof typeof images]} alt="emoji" />}
