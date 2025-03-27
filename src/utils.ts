@@ -1,4 +1,4 @@
-import * as handpose from '@tensorflow-models/handpose';
+import * as handPose from '@tensorflow-models/handpose';
 
 const fingerJoints = {
     thumb: [0, 1, 2, 3, 4],
@@ -33,7 +33,7 @@ const style = {
     20: { color: "gold", size: 6 },
   };
 
-export const drawHand = (predictions: handpose.AnnotatedPrediction[], ctx: CanvasRenderingContext2D) => {
+export const drawHand = (predictions: handPose.AnnotatedPrediction[], ctx: CanvasRenderingContext2D) => {
     if (predictions.length > 0) {
         predictions.forEach((prediction) => {
             const landmarks = prediction.landmarks;
