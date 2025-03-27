@@ -11,7 +11,6 @@ function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const detect = async (net: handpose.HandPose) => {
-
     if (!webcamRef.current || !canvasRef.current) return
 
     const isWebcamReady = typeof webcamRef.current !== "undefined" && webcamRef.current !== null && webcamRef?.current?.video?.readyState === 4
@@ -37,8 +36,7 @@ function App() {
       if (video) {
         const hand = await net.estimateHands(video);
         const ctx = canvasRef.current.getContext('2d');
-        console.log(hand);
-        
+
         if (ctx) {
           drawHand(hand, ctx)
         }
