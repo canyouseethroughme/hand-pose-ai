@@ -1,12 +1,10 @@
-// Define references
-// Load handpose
-// Detect function
 // Drawing utilities from tensorflow
 // Draw functions
 import { useRef } from 'react';
 // import * as tf from '@tensorflow/tfjs';
 import * as handpose from '@tensorflow-models/handpose';
 import Webcam from 'react-webcam';
+import { drawHand } from './utils';
 
 function App() {
   const webcamRef = useRef<Webcam | null>(null);
@@ -38,7 +36,12 @@ function App() {
 
       if (video) {
         const hand = await net.estimateHands(video);
+        const ctx = canvasRef.current.getContext('2d');
         console.log(hand);
+        
+        if (ctx) {
+          drawHand(hand, ctx)
+        }
       }
     }
   }
@@ -48,7 +51,7 @@ function App() {
 
     setInterval(() => {
       detect(net);
-    },1000)
+    }, 300)
   };
 
   runHandPose();
