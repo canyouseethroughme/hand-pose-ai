@@ -4,8 +4,8 @@ import "@tensorflow/tfjs-backend-webgl"
 import Webcam from 'react-webcam';
 import * as fingerPose from 'fingerpose';
 
-import victory from '../public/victory.png';
-import thumbs_up from '../public/thumbs-up.png';
+import victory from './victory.png';
+import thumbs_up from './thumbs-up.png';
 import { drawHand } from './utils';
 
 function App() {
