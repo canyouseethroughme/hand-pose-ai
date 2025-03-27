@@ -1,16 +1,17 @@
 // Drawing utilities from tensorflow
 // Draw functions
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 // import * as tf from '@tensorflow/tfjs';
-import * as handpose from '@tensorflow-models/handpose';
+import * as handPose from '@tensorflow-models/handpose';
 import Webcam from 'react-webcam';
 import { drawHand } from './utils';
 
 function App() {
   const webcamRef = useRef<Webcam | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [handPoseLoaded, setHandPoseLoaded] = useState(false);
 
-  const detect = async (net: handpose.HandPose) => {
+  const detect = async (net: handPose.HandPose) => {
     if (!webcamRef.current || !canvasRef.current) return
 
     const isWebcamReady = typeof webcamRef.current !== "undefined" && webcamRef.current !== null && webcamRef?.current?.video?.readyState === 4
@@ -45,7 +46,10 @@ function App() {
   }
 
   const runHandPose = async () => {
-    const net = await handpose.load();
+    const net = await handPose.load();
+    if (net) {
+      setHandPoseLoaded(true)
+    }
 
     setInterval(() => {
       detect(net);
@@ -54,11 +58,11 @@ function App() {
 
   runHandPose();
 
-
   return (
     <div>
-      <Webcam width={1920} height={1080} ref={webcamRef} className='webCamStyle' />
+      {handPoseLoaded && <h1>The model has been loaded. Now WAVE!</h1>}
 
+      <Webcam width={1920} height={1080} ref={webcamRef} className='webCamStyle' />
       <canvas ref={canvasRef} className='webCamStyle' />
     </div>
   )

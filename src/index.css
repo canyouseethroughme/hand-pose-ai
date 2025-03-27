@@ -13,6 +13,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1 {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1920px;
+  height: 1080px;
+  margin: auto;
+  z-index: 100;
+  color: white;
+  text-shadow: 2px 2px 3px black;
+}
+
 .webCamStyle {
   position: absolute;
   left: 0;
