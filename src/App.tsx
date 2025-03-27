@@ -12,11 +12,16 @@ function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
-  
+  const runHandPose = async () => {
+    const net = await handpose.load()
+    console.log(net);
+  }
+
+  runHandPose()
 
   return (
     <div>
-      <Webcam ref={webcamRef} className='webCamStyle' />
+      <Webcam width={1920} height={1080} ref={webcamRef} className='webCamStyle' />
 
       <canvas ref={canvasRef} className='webCamStyle' />
     </div>
