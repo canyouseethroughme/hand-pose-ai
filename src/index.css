@@ -28,6 +28,32 @@ h1 {
   text-shadow: 2px 2px 3px black;
 }
 
+h2 {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100px;
+  bottom: 0;
+  width: 1920px;
+  height: 1080px;
+  margin: auto;
+  z-index: 100;
+  color: white;
+  text-shadow: 2px 2px 3px black;
+}
+
+.fingerPose {
+  position: absolute;
+  left: -65%;
+  right: 0;
+  top: -70%;
+  bottom: 0;
+  width: 100px;
+  height: auto;
+  margin: auto;
+}
+
 .webCamStyle {
   position: absolute;
   left: 0;
