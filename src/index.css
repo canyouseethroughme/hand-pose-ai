@@ -45,9 +45,9 @@ h2 {
 
 .fingerPose {
   position: absolute;
-  left: -65%;
+  left: 0;
   right: 0;
-  top: -70%;
+  top: -700px;
   bottom: 0;
   width: 100px;
   height: auto;
