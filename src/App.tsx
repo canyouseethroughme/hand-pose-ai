@@ -41,6 +41,7 @@ function App() {
       if (video) {
         const hand = await net.estimateHands(video);
         const ctx = canvasRef.current.getContext('2d');
+        console.log('hand', hand);
 
         if (hand.length > 0) {
           const GE = new fingerPose.GestureEstimator([
@@ -50,11 +51,10 @@ function App() {
 
           const keyPoints3D = hand[0].landmarks
           const gesture = GE.estimate(keyPoints3D as [], 8)
-
+          console.log('gesture', gesture);
+          
           if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-            const confidence = gesture.gestures.map((prediction) => prediction.score)
-            const maxConfidence = confidence.indexOf(Math.max.apply(null, confidence))
-            setEmoji(gesture.gestures[maxConfidence].name)
+            setEmoji(gesture.gestures[0].name)
           } else {
             setEmoji("")
           }
@@ -82,13 +82,16 @@ function App() {
 
   return (
     <div>
+      {!handPoseLoaded && <h1>Loading the model...</h1>}
+      
       {handPoseLoaded && <h1>The model has been loaded. {showWebcam && "Now WAVE!"}</h1>}
       {handPoseLoaded && showWebcam && <h3>You can also do a finger pose, like thumbs up! Or victory sign!</h3>}
 
       {showWebcam ?
-        <Webcam ref={webcamRef} className='webCamStyle' />
-        : <div className='buttonContainer'><button type='button' onClick={() => setShowWebcam(true)}>CLICK HERE TO START THE WEBCAM AND PLAY WITH THE HAND POSE MODEL</button></div>}
+        <Webcam mirrored={true} ref={webcamRef} className='webCamStyle' />
+        : handPoseLoaded && <div className='buttonContainer'><button type='button' onClick={() => setShowWebcam(true)}>CLICK HERE TO START THE WEBCAM AND PLAY WITH THE HAND POSE MODEL</button></div>}
       
+
       {showWebcam && <canvas ref={canvasRef} className='webCamStyle' />}
 
       {emoji !== "" && <img className='fingerPose' src={images[emoji as keyof typeof images]} alt="emoji" />}
