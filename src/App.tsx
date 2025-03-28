@@ -12,6 +12,7 @@ function App() {
   const webcamRef = useRef<Webcam | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [handPoseLoaded, setHandPoseLoaded] = useState(false);
+  const [showWebcam, setShowWebcam] = useState(false);
   const [emoji, setEmoji] = useState("");
   const images = { thumbs_up, victory }
 
@@ -81,11 +82,14 @@ function App() {
 
   return (
     <div>
-      {handPoseLoaded && <h1>The model has been loaded. Now WAVE!</h1>}
-      {handPoseLoaded && <h3>You can also do a finger pose, like thumbs up! Or victory sign!</h3>}
+      {handPoseLoaded && <h1>The model has been loaded. {showWebcam && "Now WAVE!"}</h1>}
+      {handPoseLoaded && showWebcam && <h3>You can also do a finger pose, like thumbs up! Or victory sign!</h3>}
 
-      <Webcam ref={webcamRef} className='webCamStyle' />
-      <canvas ref={canvasRef} className='webCamStyle' />
+      {showWebcam ?
+        <Webcam ref={webcamRef} className='webCamStyle' />
+        : <div className='buttonContainer'><button type='button' onClick={() => setShowWebcam(true)}>CLICK HERE TO START THE WEBCAM AND PLAY WITH THE HAND POSE MODEL</button></div>}
+      
+      {showWebcam && <canvas ref={canvasRef} className='webCamStyle' />}
 
       {emoji !== "" && <img className='fingerPose' src={images[emoji as keyof typeof images]} alt="emoji" />}
     </div>

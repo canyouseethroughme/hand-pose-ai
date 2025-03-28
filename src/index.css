@@ -43,6 +43,25 @@ h3 {
   text-shadow: 2px 2px 3px black;
 }
 
+.buttonContainer {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 300px;
+  bottom: 0;
+  width: 640px;
+  height: 480px;
+  margin: auto;
+  z-index: 100;
+}
+
+button {
+  height: 50px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
 .fingerPose {
   position: absolute;
   left: 0;
