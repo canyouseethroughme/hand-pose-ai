@@ -85,3 +85,7 @@ button {
   text-align: center;
 }
 
+canvas {
+  transform: scale(-1, 1);
+}
+
