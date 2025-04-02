@@ -11,18 +11,16 @@ import { drawHand } from './utils';
 function App() {
   const webcamRef = useRef<Webcam | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [handPoseLoaded, setHandPoseLoaded] = useState(false);
-  const [showWebcam, setShowWebcam] = useState(false);
+  const [isHandPoseLoaded, setIsHandPoseLoaded] = useState(false);
+  const [isWebcamVisible, setIsWebcamVisible] = useState(false);
   const [emoji, setEmoji] = useState("");
   const images = { thumbs_up, victory };
 
   useEffect(() => {
     const runHandPose = async () => {
-      // Load the HandPose model once
-      const net = await handPose.load();
-      setHandPoseLoaded(true);
-
-      // Detection loop
+      const model = await handPose.load();
+      setIsHandPoseLoaded(true);
+      
       const detectLoop = async () => {
         if (
           webcamRef.current &&
@@ -40,8 +38,12 @@ function App() {
           canvasRef.current.height = videoHeight;
 
           // Perform hand detection
-          const hand = await net.estimateHands(video);
+          const hand = await model.estimateHands(video);
           const ctx = canvasRef.current.getContext('2d');
+
+          if (ctx) {
+            drawHand(hand, ctx);
+          }
 
           if (hand.length > 0) {
             const GE = new fingerPose.GestureEstimator([
@@ -58,10 +60,6 @@ function App() {
               setEmoji("");
             }
           }
-
-          if (ctx) {
-            drawHand(hand, ctx);
-          }
         }
 
         // Schedule the next frame
@@ -72,32 +70,32 @@ function App() {
     };
 
     runHandPose();
-  }, []); 
+  }, []);
 
   return (
     <div>
-      {!handPoseLoaded && <h1>Loading the model...</h1>}
+      {!isHandPoseLoaded && <h1>Loading the model...</h1>}
 
-      {handPoseLoaded && (
+      {isHandPoseLoaded && (
         <h1>
-          The model has been loaded. {showWebcam && "Now WAVE!"}
+          The model has been loaded. {isWebcamVisible && "Now WAVE!"}
         </h1>
       )}
-      {handPoseLoaded && showWebcam && (
+      {isHandPoseLoaded && isWebcamVisible && (
         <h3>
           You can also do a finger pose, like thumbs up! Or victory
           sign!
         </h3>
       )}
 
-      {showWebcam ? (
+      {isWebcamVisible ? (
         <Webcam mirrored={true} ref={webcamRef} className="webCamStyle" />
       ) : (
-        handPoseLoaded && (
+        isHandPoseLoaded && (
           <div className="buttonContainer">
             <button
               type="button"
-              onClick={() => setShowWebcam(true)}
+              onClick={() => setIsWebcamVisible(true)}
             >
               CLICK HERE TO START THE WEBCAM AND PLAY WITH THE HAND
               POSE MODEL
@@ -106,7 +104,7 @@ function App() {
         )
       )}
 
-      {showWebcam && <canvas ref={canvasRef} className="webCamStyle" />}
+      {isWebcamVisible && <canvas ref={canvasRef} className="webCamStyle" />}
 
       {emoji !== "" && (
         <img
